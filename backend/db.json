@@ -1,0 +1,12 @@
+{
+    "users": [{
+        "id": 1,
+        "name": "Jorge Alan Dutra",
+        "email": "alandutra02@yahoo.com.br"
+    }, {
+        "id": 1,
+        "name": "Denise Soares Canela",
+        "email": "decanelaster@gmail.com"
+    }, {
+    }]
+}
