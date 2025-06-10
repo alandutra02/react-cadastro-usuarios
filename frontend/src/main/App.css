@@ -1,0 +1,55 @@
+:root {
+    --bg-dark: #1a2f3a;
+
+    --logo-height: 100px;
+    --header-height: 100px;
+    --aside-width: 225px;
+    --footer-height: 40px;
+
+    --shadow:
+        0 2px 23px 0 rgba(0, 0, 0, 0.1),
+        0 2px 49px 0 rgba(0, 0, 0, 0.06);
+}
+
+* {
+    box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Layout em Grid */
+
+.app {
+    margin: 0px;
+    display: grid;
+    grid-template-columns: var(--aside-width) 1fr; /* aqui será dividido em 2 colunas, uma de 225px e outra com o resto (fr)*/
+    grid-template-rows: 
+        var(--header-height) /* A primeira linha da grid será a altura do cabeçalho */
+        1fr /* As linhas interiores da grid serão o que sobrar. O meio será o máximo que ser */
+        var(--footer-height); /* a última linha da grid será o rodapé*/
+    grid-template-areas: /* abaixo é organizado o layout básico da aplicação com serparação em uma grid com 2 colunas e 3 linhas. Aqui o mosáico básico é montado e é destinado através das tags e classes definidos neste CSS*/
+        "logo header"
+        "menu content"
+        "menu footer";
+    height: 100vh;
+    background-color: #f5f5f5;
+}
+
+aside.logo { /* tag e classe que foram definidas no arquivo Logo.jsx */
+    grid-area: logo;
+}
+
+header.header { /* tag e classe que foram definidas no arquivo Header.jsx */
+    grid-area: header;
+}
+
+aside.menu-area { /* tag e classe que foram definidas no arquivo Nav.jsx */
+    grid-area: menu;
+}
+
+main.content { /* tag e classe que foram definidas no arquivo Main.jsx */
+    grid-area: content;
+}
+
+footer.footer { /* tag e classe que foram definidas no arquivo Footer.jsx */
+    grid-area: footer;
+}
