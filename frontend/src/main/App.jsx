@@ -20,6 +20,6 @@ export default props =>
             <Nav />
             <Routes />
             <Footer />
-    </div>
+        </div>
     </BrowserRouter>
     
