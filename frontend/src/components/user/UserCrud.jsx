@@ -36,6 +36,12 @@ export default class UserCrud extends Component {
             })
     }
 
+    getUpdatedList(user) {
+        const list = this.state.list.filter(u => u.id !== user.id)
+        list.unshift(user) // unshift coloca o elemento na primeira posição do array, então o usuário incluído ou alterado vai entra na primeira posição
+        return list
+    }
+
     render() {
         return (
             <Main {...headrProps}>
