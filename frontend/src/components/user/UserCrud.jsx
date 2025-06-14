@@ -42,10 +42,60 @@ export default class UserCrud extends Component {
         return list
     }
 
+    updateField(event) { // função para alterar campos do formulário
+        const user = { ...this.state.user} // fazemos um clone do estatdo do objeto para não manipular diretamente o objeto original. Essa é uma filosofia do React. Se alterar um objeto diretamente sem fazer o spread, o React pode não detectar a mudança no objeto e não fazer o render porque ele não consegue fazer a comparação entre o estado original e o novo estado porque a referência do estado antigo é perdida ao se alterar o objeto diretamente. 
+        user[event.target.name] = event.target.value
+        this.setState({ user })
+    }
+    
+    renderForm() {
+        return (<div className="form">
+            <div className="row">
+                <div className="col-12 col-md-6">
+                    <div className="form-group">
+                        <label>Nome</label>
+                        <input type="text" className="form-control" 
+                            name="name"
+                            value={this.state.user.name}
+                            onChange={e => this.updateField(e)}
+                            placeholder="Digite o nome..." />
+                    </div>
+                </div>
+
+                <div className="col-12 col-md-6">
+                    <div className="form-group">
+                        <label>E-mail</label>
+                        <input type="text" className="type form-control"
+                        name="email"
+                        value={this.state.user.email}
+                        onChange={e => this.updateField(e)}
+                        placeholder="Digite o e-mail..." />
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+            <div className="row">
+                <div className="col-12 d-flex justify-content-end">
+                    <button className="btn btn-primary"
+                        onClick={e => this.save(e)}>
+                        Salvar
+                    </button>
+                    <button className="btn btn-sercondary ml-2"
+                        onClick={e => this.clear(e)}>
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        )
+    }
+
     render() {
         return (
             <Main {...headrProps}>
-                Cadastro de Usuário
+                {this.renderForm()}
             </Main>
         )
     }
