@@ -3,6 +3,7 @@
 
     --logo-height: 100px;
     --header-height: 100px;
+    --menu-top-height: 70px;
     --aside-width: 225px;
     --footer-height: 40px;
 
@@ -26,7 +27,7 @@
         var(--header-height) /* A primeira linha da grid será a altura do cabeçalho */
         1fr /* As linhas interiores da grid serão o que sobrar. O meio será o máximo que ser */
         var(--footer-height); /* a última linha da grid será o rodapé*/
-    grid-template-areas: /* abaixo é organizado o layout básico da aplicação com serparação em uma grid com 2 colunas e 3 linhas. Aqui o mosáico básico é montado e é destinado através das tags e classes definidos neste CSS*/
+    grid-template-areas: /* abaixo é organizado o layout básico da aplicação com separação em uma grid com 2 colunas e 3 linhas. Aqui o mosaico básico é montado e é destinado através das tags e classes definidos neste CSS*/
         "logo header"
         "menu content"
         "menu footer";
@@ -52,4 +53,36 @@ main.content { /* tag e classe que foram definidas no arquivo Main.jsx */
 
 footer.footer { /* tag e classe que foram definidas no arquivo Footer.jsx */
     grid-area: footer;
+}
+
+@media(max-width: 768px) {
+    .app {
+        grid-template-rows:
+            var(--header-height)
+            var(--menu-top-height)
+            1fr
+            var(--footer-height);
+        grid-template-columns: var(--aside-width) 1fr;
+        grid-template-areas:
+            "logo header"
+            "menu menu"
+            "content content"
+            "footer footer";
+    }
+}
+
+@media(max-width: 576px) {
+    .app {
+        grid-template-rows: 
+            var(--logo-height)
+            var(--menu-top-height)
+            1fr
+            var(--footer-height);
+        grid-template-columns: 1fr;
+        grid-template-areas: 
+            "logo"
+            "menu"
+            "content"
+            "footer";
+    }
 }
