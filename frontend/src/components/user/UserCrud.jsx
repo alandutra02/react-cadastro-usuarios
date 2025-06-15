@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Main from "../template/Main";
 import axios from 'axios'
 
-const headrProps = {
+const headerProps = {
     icon: 'users',
     title: 'Usuários',
     subtitle: 'Cadastro de usuários: Incluir, listar, Alterar e Excluir!'
@@ -18,6 +18,12 @@ const initialState = {
 export default class UserCrud extends Component {
 
     state = { ...initialState }
+
+    componentDidMount() { // componentDidMount() é nativo do React e chamado automaticamente após o componente ser renderizado na tela pela primeira vez, o que garante que o DOM está pronto e que você pode fazer chamadas assíncronas com segurança.
+        axios(baseUrl).then(resp => { // aqui será feito um get em cima da url
+            this.setState({list: resp.data})
+            }) 
+    }
 
     // clear() é a função responsável por limpar o formulário quando este estiver preenchido e for clicado o botão cancelar.
     clear() {
@@ -36,9 +42,9 @@ export default class UserCrud extends Component {
             })
     }
 
-    getUpdatedList(user) {
+    getUpdatedList(user, add = true) {
         const list = this.state.list.filter(u => u.id !== user.id)
-        list.unshift(user) // unshift coloca o elemento na primeira posição do array, então o usuário incluído ou alterado vai entra na primeira posição
+        if(add) list.unshift(user) // unshift coloca o elemento na primeira posição do array, então o usuário incluído ou alterado vai entra na primeira posição
         return list
     }
 
@@ -92,10 +98,62 @@ export default class UserCrud extends Component {
         )
     }
 
+    load(user) { // carrega os usuários em uma lista
+        this.setState({ user })
+    }
+
+    remove(user) { // remove usuários
+        axios.delete(`${baseUrl}/${user.id}`).then(resp => {
+            const list = this.getUpdatedList(user, false)
+            this.setState({ list })
+        })
+    }
+
+    renderTable() {
+        return (
+            <table className="table mt-4">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>E-mail</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {this.renderRows()}
+                </tbody>
+            </table>
+        )
+    }
+
+    renderRows() {
+        return this.state.list.map(user => {
+            return (
+                <tr key={user.id}>
+                    <td>{user.id}</td>
+                    <td>{user.name}</td>
+                    <td>{user.email}</td>
+                    <td>
+                        <button className="btn btn-warning"
+                            onClick={() => this.load(user)}>
+                            <i className="fa fa-pencil"></i>
+                        </button>
+                        <button className="btn btn-danger ms-2" //ms(margin start - bootstrap5) no lugar do ml para margin left (bootstrap4)
+                            onClick={() => this.remove(user)}>
+                            <i className="fa fa-trash"></i>
+                        </button>
+                    </td>
+                </tr>
+            )
+        })
+    }
+
     render() {
         return (
-            <Main {...headrProps}>
+            <Main {...headerProps}>
                 {this.renderForm()}
+                {this.renderTable()}
             </Main>
         )
     }
